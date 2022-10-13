@@ -556,22 +556,26 @@ def run_looping_effect_queue(
                     )
 
                 ### Store any pet that scored a knockout with its effect
-                for temp_target in targets:
-                    if temp_target.health <= 0:
-                        ### If scored knockout with effect, need to break
-                        ###   right away to insert another knockout trigger to
-                        ###   the top of the effect queue
-                        if trigger_method == getattr(p, "knockout_trigger"):
-                            insert_idx_list.append(0)
-                            insert_values.append(
-                                [
-                                    p,
-                                    team_idx,
-                                    pet_idx,
-                                    trigger_method,
-                                    effect_args,
-                                ]
-                            )
+                for temp_targ in targets:
+                    # hotfix for now: make everything a list #################
+                    if not isinstance(temp_targ, list):
+                        temp_targ = [temp_targ]
+                    for temp_target in temp_targ:
+                        if temp_target.health <= 0:
+                            ### If scored knockout with effect, need to break
+                            ###   right away to insert another knockout trigger to
+                            ###   the top of the effect queue
+                            if trigger_method == getattr(p, "knockout_trigger"):
+                                insert_idx_list.append(0)
+                                insert_values.append(
+                                    [
+                                        p,
+                                        team_idx,
+                                        pet_idx,
+                                        trigger_method,
+                                        effect_args,
+                                    ]
+                                )
                 if len(insert_values) > 0:
                     break
 
@@ -801,22 +805,26 @@ def run_looping_effect_queue(
                         ###  There's better way to do this once test suite built
                         pass
 
-                for summoned_pet in summoned_list:
-                    if summoned_pet.team == p.team:
-                        trigger_method = getattr(p, "friend_summoned_trigger")
-                    else:
-                        trigger_method = getattr(p, "enemy_summoned_trigger")
-                    pet_summoned_trigger_list.append(
-                        [
-                            p,
-                            team_idx,
-                            pet_idx,
-                            trigger_method,
+                for summoned_pets in summoned_list:
+                    # second hotfix area ################################
+                    if not isinstance(summoned_pets, list):
+                        summoned_pets = [summoned_pets]
+                    for summoned_pet in summoned_pets:
+                        if summoned_pet.team == p.team:
+                            trigger_method = getattr(p, "friend_summoned_trigger")
+                        else:
+                            trigger_method = getattr(p, "enemy_summoned_trigger")
+                        pet_summoned_trigger_list.append(
                             [
-                                summoned_pet,
-                            ],
-                        ]
-                    )
+                                p,
+                                team_idx,
+                                pet_idx,
+                                trigger_method,
+                                [
+                                    summoned_pet,
+                                ],
+                            ]
+                        )
 
             effect_queue = (
                 before_faint_trigger_list

@@ -104,13 +104,13 @@ class TestBattles(unittest.TestCase):
     def test_before_and_after_attack(self):
         t0 = Team(["elephant", "snake", "dragon", "fish"])
         t1 = Team(["cricket", "horse", "fly", "tiger"])
-        t0[2]._health = 50
+        t0[2].pet._health = 50
 
         b = Battle(t0, t1)
         b.battle()
         t0 = Team(["elephant", "snake", "dragon", "fish"])
         t1 = Team(["cricket", "horse", "fly", "tiger"])
-        t0[2]._health = 50
+        t0[2].pet._health = 50
 
         b = Battle(t0, t1)
         b.battle()
@@ -474,7 +474,7 @@ class TestBattles(unittest.TestCase):
                 t0[0].obj._health = 1
                 t1 = Team(["mosquito", "fish"], seed_state=seed_state)
                 t0[0].obj.hurt(1)
-                activated, targets, _ = t0[0].obj.faint_trigger(
+                activated, targets, _, _ = t0[0].obj.faint_trigger(
                     t0[0].obj, [0, 0], oteam=t1
                 )
 
@@ -493,7 +493,7 @@ class TestBattles(unittest.TestCase):
         t0[1].obj._health = 1
         t1 = Team(["mosquito", "fish"], seed_state=seed_state)
         t0[1].obj.hurt(1)
-        activated, targets, _ = t0[1].obj.faint_trigger(t0[1].obj, [0, 1], oteam=t1)
+        activated, targets, _, _ = t0[1].obj.faint_trigger(t0[1].obj, [0, 1], oteam=t1)
         badger_damage = 4
         self.assertEqual(targets, [t0[0].obj, t0[2].obj])
         self.assertEqual(t0[0].obj.health, 2 - 4)
@@ -505,7 +505,7 @@ class TestBattles(unittest.TestCase):
         t0[2].obj._health = 1
         t1 = Team(["mosquito", "fish"], seed_state=seed_state)
         t0[2].obj.hurt(1)
-        activated, targets, _ = t0[2].obj.faint_trigger(t0[2].obj, [0, 2], oteam=t1)
+        activated, targets, _, _ = t0[2].obj.faint_trigger(t0[2].obj, [0, 2], oteam=t1)
         badger_damage = 4
         self.assertEqual(targets, [t0[1].obj])
         self.assertEqual(t0[1].obj.health, 2 - 4)

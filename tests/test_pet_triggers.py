@@ -331,7 +331,7 @@ class TestPetTriggers(unittest.TestCase):
         for iter_idx, pet in enumerate(test_pet_list):
             pet.team.append(Pet("tiger"))
             te_idx = [0, pet.team.index(pet)]
-            activated_bool, targets, possible = pet.faint_trigger(pet, te_idx)
+            activated_bool, targets, possible, _ = pet.faint_trigger(pet, te_idx)
             self.assertEqual(activated_bool, test_bool_list[iter_idx])
 
     def test_faint_triggers_self_friend_in_front(self):
@@ -387,7 +387,7 @@ class TestPetTriggers(unittest.TestCase):
             pet.team.append(Pet("tiger"))
             friend_ahead = pet.team.get_ahead(pet)[0]
             te_idx = [0, pet.team.index(friend_ahead)]
-            activated_bool, targets, possible = pet.faint_trigger(friend_ahead, te_idx)
+            activated_bool, targets, possible, _ = pet.faint_trigger(friend_ahead, te_idx)
             self.assertEqual(activated_bool, test_bool_list[iter_idx])
 
     def test_start_of_battle_triggers(self):

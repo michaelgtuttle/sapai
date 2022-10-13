@@ -68,7 +68,7 @@ def apply_faint_status_trigger(faint_trigger_fn):
 
         ### If pet itself has not fainted, status is not activated
         if trigger != self:
-            return activated, targets, possible
+            return activated, targets, possible, None
 
         ### Check status
         if self.status in ["status-honey-bee", "status-extra-life"]:
