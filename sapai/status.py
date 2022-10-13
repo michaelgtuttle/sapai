@@ -61,7 +61,7 @@ def apply_extra_life(pet, team):
 
 
 def apply_faint_status_trigger(faint_trigger_fn):
-    def faint_status_trigger(self, trigger, te_idx, oteam, force_friend_ahead=False):
+    def faint_status_trigger(self, trigger, te_idx, oteam=None, force_friend_ahead=False):
         activated, targets, possible = faint_trigger_fn(
             self, trigger, te_idx, oteam, force_friend_ahead
         )
