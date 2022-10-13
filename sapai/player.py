@@ -328,7 +328,8 @@ class Player:
         ability = data["statuses"][fainted_pet.status]["ability"]
         fainted_pet.set_ability(ability)
         te_idx = [0, pet_idx]
-        activated, targets, possible = fainted_pet.faint_trigger(fainted_pet, te_idx)
+        # error from returning four values
+        activated, targets, possible, _ = fainted_pet.faint_trigger(fainted_pet, te_idx)
         self.check_summon_triggers(fainted_pet, pet_idx, activated, targets, possible)
 
     @storeaction
