@@ -260,9 +260,14 @@ class Player:
                 for _, te_pet_idx in pp:
                     other_pet = self.team[te_pet_idx].pet
                     te_idx = [0, pet_idx]
-                    activated, targets, possible = other_pet.faint_trigger(
-                        fainted_pet, te_idx
+                    # Getting errors here from different # return values
+                    returned = other_pet.faint_trigger(
+                        fainted_pet, te_idx, oteam=None
                     )
+                    if len(returned) == 3:
+                        activated, targets, possible = returned
+                    else:
+                        activated, targets, possible, _ = returned
                     if activated:
                         faint_targets_list.append(
                             [fainted_pet, pet_idx, activated, targets, possible]
@@ -533,6 +538,21 @@ class Player:
         self.team = Team([self.team[x] for x in idx], seed_state=self.team.seed_state)
 
         return idx
+
+
+    @storeaction
+    def move(self, idx1, idx2):
+        if idx1 == idx2:
+            raise Exception("idx1 cannot be the same as idx2")
+        order = [i for i, slot in enumerate(self.team)]
+        #[0, 1, 2, 3, 4]
+        #move (1, 3)
+        #[0, 2, 3, 1, 4]
+        order.remove(idx1)
+        order.insert(idx2, idx1)
+        self.team = Team([self.team[x] for x in order], seed_state=self.team.seed_state)
+        self.team.move_forward()
+        return idx1, idx2
 
     @storeaction
     def end_turn(self):
