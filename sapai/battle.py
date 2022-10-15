@@ -312,13 +312,14 @@ def battle_phase_attack(battle_obj, phase, teams, pet_priority, phase_dict):
     p0 = teams[0][aidx[0][1]].pet
     p1 = teams[1][aidx[1][1]].pet
 
-    if p0._health > 0 and p1._health > 0:
+    if p0.health > 0 and p1.health > 0:
         #### Implement food
         p0a, p1a = get_attack(p0, p1)
 
         teams[0][aidx[0][1]].pet.hurt(p1a)
         teams[1][aidx[1][1]].pet.hurt(p0a)
         phase_list.append(["Attack", (aidx[0]), str(p0), [str(p1)]])
+        phase_list.append(["Attack", (aidx[1]), str(p1), [str(p0)]]) # should delete
 
         ### Keep track of knockouts for rhino and hippo by:
         ###   (attacking_pet, team_idx)
@@ -516,7 +517,6 @@ def run_looping_effect_queue(
                         init_knockout_list.append(teams[1][t1_pidx].obj)
                     if teams[1][t1_pidx].obj.health <= 0:
                         init_knockout_list.append(teams[0][t0_pidx].obj)
-
         while True:
             ### Question: Does pet_priority need to be re-evaluated in this loop?
             ###   Should match what actual game does.
@@ -690,7 +690,6 @@ def run_looping_effect_queue(
             faint_trigger_list = []
             pet_faint_trigger_list = []
             pet_summoned_trigger_list = []
-
             for team_idx, pet_idx in pp:
                 p = teams[team_idx][pet_idx].pet
                 fteam, oteam = get_teams([team_idx, pet_idx], teams)
@@ -834,7 +833,6 @@ def run_looping_effect_queue(
                 + pet_faint_trigger_list
                 + pet_summoned_trigger_list
             )
-
             ### Break if no more effects to trigger
             if len(effect_queue) == 0:
                 break
