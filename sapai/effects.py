@@ -876,7 +876,7 @@ def SummonPet(apet, apet_idx, teams, te=None, te_idx=[], fixed_targets=[]):
                 empty_idx.append(iter_idx)
         if len(empty_idx) == 0:
             ### Can safely return, cannot summon
-            return target, [target]
+            break #return target, [target]
 
         target_slot_idx = np.max(empty_idx)
         target_team[target_slot_idx] = spet_name
