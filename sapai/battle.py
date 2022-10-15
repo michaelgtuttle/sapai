@@ -80,6 +80,16 @@ class Battle:
         self.start()
         while True:
             result = self.attack()
+            if self.battle_iter > 30:
+                print()
+                print("stuck in loop")
+                print(self.t0)
+                print(self.t1)
+                for i, (key, value) in enumerate(self.battle_history.items()):
+                    print(value)
+                    if i > 10:
+                        break
+                raise ValueError("stuck in loop")
             if result == False:
                 break
 
@@ -654,7 +664,8 @@ def run_looping_effect_queue(
                         ### If another pet was summoned, then need to use this
                         ###   to trigger fly summon location
                         if p.ability["effect"]["kind"] in ["SummonPet", "RespawnPet"]:
-                            faint_list[-1] = (p, [team_idx, status_targets[0]])
+                            if status_targets:
+                                faint_list[-1] = (p, [team_idx, status_targets[0]])
                         ### And add it to summoned_list
                         summoned_list += status_targets
                     elif status_summon:
