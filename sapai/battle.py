@@ -694,7 +694,6 @@ def run_looping_effect_queue(
             ### Then check for additional triggers to add to the queue by the
             ###   pet priority
             pp = battle_obj.calculate_pet_priority()
-
             before_faint_trigger_list = []
             hurt_trigger_list = []
             knockout_trigger_list = []
@@ -800,16 +799,17 @@ def run_looping_effect_queue(
                         and p.ability["triggeredBy"]["kind"] == "FriendAhead"
                         and fainted_pet.team == p.team
                     ):
-                        if fa_ref[team_idx][id(p)] == fainted_pet:
-                            pet_faint_trigger_list.append(
-                                [
-                                    p,
-                                    team_idx,
-                                    pet_idx,
-                                    trigger_method,
-                                    [fainted_pet, te_idx, oteam, True],
-                                ]
-                            )
+                        if id(p) in fa_ref[team_idx].keys():
+                            if fa_ref[team_idx][id(p)] == fainted_pet:
+                                pet_faint_trigger_list.append(
+                                    [
+                                        p,
+                                        team_idx,
+                                        pet_idx,
+                                        trigger_method,
+                                        [fainted_pet, te_idx, oteam, True],
+                                    ]
+                                )
                     else:
                         ### For now, all relevant effects are hard-coded above,
                         ###  There's better way to do this once test suite built
