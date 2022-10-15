@@ -80,16 +80,6 @@ class Battle:
         self.start()
         while True:
             result = self.attack()
-            if self.battle_iter > 30:
-                print()
-                print("stuck in loop")
-                print(self.t0)
-                print(self.t1)
-                for i, (key, value) in enumerate(self.battle_history.items()):
-                    print(value)
-                    if i > 10:
-                        break
-                raise ValueError("stuck in loop")
             if result == False:
                 break
 
@@ -198,10 +188,10 @@ class Battle:
         elif t0_empty and t1_empty:
             ### Draw
             return 2
-        elif t0_empty:
+        elif t1_empty:
             ### t0 won
             return 0
-        elif t1_empty:
+        elif t0_empty:
             ### t1 won
             return 1
         else:
