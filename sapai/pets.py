@@ -204,6 +204,10 @@ class Pet:
         self._until_end_of_battle_attack_buff = 0
         self._until_end_of_battle_health_buff = 0
 
+        # Remove overriden ability for parrot
+        self.override_ability = False
+        self.override_ability_dict = {}
+
         ### Reset ability_counter for goat at sot_trigger
         self.ability_counter = 0
 
@@ -862,7 +866,7 @@ class Pet:
 
     def __repr__(self):
         return (
-            f"< {self.name} {self._attack}-{self._health} "
+            f"< {self.name} {self._attack}-{self._health} + ({self._until_end_of_battle_attack_buff}-{self._until_end_of_battle_health_buff}) "
             + f"{self.status} {self.level}-{self.experience} >"
         )
 
